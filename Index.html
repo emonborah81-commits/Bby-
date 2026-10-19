@@ -1,0 +1,647 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#fff2f5">
+  <meta name="description" content="A little romantic surprise, made just for you.">
+  <title>For My Bbe ♡</title>
+
+  <style>
+    :root {
+      --pink: #ed8fa9;
+      --rose: #d96789;
+      --pale: #fff2f5;
+      --cream: #fffaf4;
+      --lavender: #eee7ff;
+      --text: #674552;
+      --muted: #9b7782;
+      --glass: rgba(255, 255, 255, .76);
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 20px;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 5% 10%, #fbe0e9 0, transparent 34%),
+        radial-gradient(ellipse at 95% 35%, #eee6ff 0, transparent 32%),
+        linear-gradient(160deg, var(--cream), var(--pale), #fff9f2);
+      font-family: "Trebuchet MS", system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+
+    button, a { font: inherit; }
+
+    button { -webkit-tap-highlight-color: transparent; }
+
+    .ambient {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .orb {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      filter: blur(65px);
+      opacity: .42;
+      animation: floatOrb 12s ease-in-out infinite alternate;
+    }
+
+    .orb.one { background: #ffc5d7; top: 8%; left: -100px; }
+    .orb.two { background: #dcd0ff; top: 50%; right: -120px; animation-delay: -5s; }
+    .orb.three { background: #ffe0c8; bottom: -100px; left: 25%; animation-delay: -3s; }
+
+    .heart {
+      position: absolute;
+      top: -35px;
+      color: #e68da8;
+      opacity: .62;
+      animation: fall linear forwards;
+      user-select: none;
+    }
+
+    @keyframes fall {
+      to { transform: translate3d(var(--drift), 110vh, 0) rotate(330deg); opacity: 0; }
+    }
+
+    @keyframes floatOrb {
+      to { transform: translate(35px, -28px) scale(1.12); }
+    }
+
+    @keyframes bob {
+      50% { transform: translateY(-9px) rotate(3deg); }
+    }
+
+    @keyframes pulse {
+      50% { box-shadow: 0 0 0 12px rgba(237,143,169,0); }
+    }
+
+    @keyframes shine {
+      0%, 100% { opacity: .65; }
+      50% { opacity: 1; }
+    }
+
+    .music-btn {
+      position: fixed;
+      z-index: 10;
+      top: max(15px, env(safe-area-inset-top));
+      right: 15px;
+      width: 49px;
+      height: 49px;
+      border: 1px solid rgba(255,255,255,.9);
+      border-radius: 50%;
+      background: rgba(255,255,255,.83);
+      color: var(--rose);
+      box-shadow: 0 7px 24px #d88da52b;
+      cursor: pointer;
+      font-size: 22px;
+      backdrop-filter: blur(12px);
+    }
+
+    .music-btn.playing { animation: bob 2s ease-in-out infinite; }
+
+    main, footer { position: relative; z-index: 1; }
+
+    section {
+      width: min(100%, 680px);
+      min-height: 90svh;
+      margin: auto;
+      padding: 76px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .hero { min-height: 100svh; }
+
+    .eyebrow {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 20px;
+    }
+
+    .tiny-heart {
+      font-size: 52px;
+      display: inline-block;
+      margin-bottom: 18px;
+      animation: bob 2.8s ease-in-out infinite;
+    }
+
+    h1, h2, p { margin-top: 0; }
+
+    h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(42px, 12vw, 72px);
+      line-height: 1.04;
+      font-weight: 400;
+      letter-spacing: -2px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(32px, 8vw, 47px);
+      font-weight: 400;
+      line-height: 1.12;
+      margin-bottom: 20px;
+    }
+
+    .pink { color: var(--rose); font-style: italic; }
+
+    .subtitle {
+      color: var(--muted);
+      max-width: 330px;
+      line-height: 1.8;
+      font-size: 15px;
+    }
+
+    .scroll-cue {
+      margin-top: 65px;
+      color: var(--rose);
+      font-size: 12px;
+      letter-spacing: 1px;
+      animation: shine 2s infinite;
+    }
+
+    .scroll-cue span {
+      display: block;
+      font-size: 23px;
+      margin-top: 10px;
+    }
+
+    .card {
+      width: 100%;
+      padding: clamp(23px, 6vw, 38px);
+      background: var(--glass);
+      border: 1px solid rgba(255,255,255,.9);
+      border-radius: 28px;
+      box-shadow: 0 16px 55px rgba(178, 105, 130, .09);
+      backdrop-filter: blur(14px);
+    }
+
+    .intro-tag {
+      display: inline-block;
+      border-radius: 30px;
+      background: #ffe3eb;
+      color: #bc5577;
+      padding: 9px 17px;
+      font-size: 13px;
+      margin-bottom: 24px;
+    }
+
+    .message {
+      font-size: 15px;
+      line-height: 1.95;
+      text-align: left;
+      color: #785562;
+    }
+
+    .message p { margin-bottom: 19px; }
+
+    .quote {
+      margin: 24px 0;
+      padding: 19px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #fff0f5, #f4efff);
+      font-family: Georgia, serif;
+      font-size: 22px;
+      line-height: 1.5;
+      color: #bd5e7c;
+    }
+
+    .tease {
+      border-left: 3px solid #eaa0b7;
+      padding: 14px 17px;
+      background: #fff5f8;
+      border-radius: 0 16px 16px 0;
+      text-align: left;
+      line-height: 1.8;
+      margin: 18px 0;
+      font-size: 14px;
+    }
+
+    .video-frame {
+      width: 100%;
+      overflow: hidden;
+      border-radius: 22px;
+      background: #f5e7eb;
+      border: 1px solid #f6dce5;
+      box-shadow: 0 14px 32px #b86d8517;
+    }
+
+    video {
+      display: block;
+      width: 100%;
+      max-height: 70svh;
+      aspect-ratio: 9 / 16;
+      object-fit: contain;
+      background: #fff7f8;
+    }
+
+    .hint {
+      margin: 15px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 9px;
+      margin-top: 22px;
+    }
+
+    .chip {
+      background: rgba(255,255,255,.82);
+      border: 1px solid #f7dce5;
+      border-radius: 30px;
+      padding: 10px 13px;
+      font-size: 12px;
+      color: #ad617a;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 49px;
+      padding: 13px 22px;
+      border: 0;
+      border-radius: 30px;
+      background: linear-gradient(135deg, #e989a6, #d76f91);
+      color: white;
+      box-shadow: 0 9px 22px #dc829e38;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform .2s ease;
+    }
+
+    .btn:active { transform: scale(.97); }
+
+    .btn.secondary {
+      background: white;
+      color: #bd5e7c;
+      border: 1px solid #f4d8e1;
+      box-shadow: none;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 25px;
+    }
+
+    .final-heart {
+      font-size: 45px;
+      margin-bottom: 15px;
+      animation: pulse 2s infinite;
+      border-radius: 50%;
+    }
+
+    .answer {
+      min-height: 27px;
+      margin-top: 22px;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--rose);
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px 18px calc(32px + env(safe-area-inset-bottom));
+      color: #a98591;
+      font-size: 12px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(23px);
+      transition: opacity .75s ease, transform .75s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    button:focus-visible, a:focus-visible, video:focus-visible {
+      outline: 3px solid #c66b8a;
+      outline-offset: 4px;
+    }
+
+    @media (min-width: 600px) {
+      section { padding-top: 95px; padding-bottom: 95px; }
+      .message { font-size: 16px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="ambient" id="ambient" aria-hidden="true">
+    <div class="orb one"></div>
+    <div class="orb two"></div>
+    <div class="orb three"></div>
+  </div>
+
+  <audio id="music" src="Khwab.mp3" loop preload="auto"></audio>
+
+  <button class="music-btn" id="musicBtn"
+          aria-label="Play background music"
+          aria-pressed="false" title="Music on/off">♫</button>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow">A tiny surprise, just for you</div>
+      <div class="tiny-heart" aria-hidden="true">♡</div>
+      <h1>Hey,<br><span class="pink">my Bbe.</span></h1>
+      <p class="subtitle">
+        I made a little corner of the internet just for you.
+        No big reason… I just wanted to make you smile. 🎀
+      </p>
+      <div class="scroll-cue">
+        TAKE YOUR TIME, PRETTY GIRL
+        <span aria-hidden="true">↓</span>
+      </div>
+    </section>
+
+    <section>
+      <div class="card reveal">
+        <div class="intro-tag">For you, Bby 💗</div>
+        <h2>Can I tell you<br><span class="pink">something?</span></h2>
+        <div class="message">
+          <p>Hii bbeee 🥹💗</p>
+          <p>
+            Pata hai, tumse baat karte karte kab mere face pe smile
+            aane lagti hai, mujhe khud pata nahi chalta. Tumhara ek
+            message bhi mera mood achha kar sakta hai.
+          </p>
+          <p>
+            Abhi humari story nayi hai, aur main chahta hoon ki hum
+            ise aaram se, khushi se aur ek dusre ko samajhte hue
+            beautiful banayein. No pressure, bas lots of smiles,
+            silly talks aur cute memories. 🫶🏻
+          </p>
+        </div>
+        <div class="quote">
+          “Maybe my favourite notification is the one with your name on it.” ♡
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="card reveal">
+        <div class="eyebrow">A little confession</div>
+        <h2>Things you do<br><span class="pink>"></span><span class="pink">without even trying</span></h2>
+        <div class="message">
+          <p>♡ Tumhari baaton ka wait karna.</p>
+          <p>♡ Tumhari silly si baaton pe hasna.</p>
+          <p>♡ Tumhe tease karna aur phir khud hi sharma jaana. 🙈</p>
+          <p>♡ Bina kisi special reason ke tumhe yaad karna.</p>
+        </div>
+        <div class="tease">
+          Bbe, ek complaint hai meri… 😤💗<br>
+          Tum itni cute kyun ho? Ab main normal conversation bhi
+          bina blush kiye nahi kar paata! 🙈
+        </div>
+        <div class="tease">
+          Aur suno, Miss Pretty… tum mujhe tease karogi toh main bhi
+          tumhe sweet-sweet compliments dekar blush karwaunga. Deal? 🎀😉
+        </div>
+        <p class="hint">Warning: excessive cuteness may cause random smiling. ♡</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="card reveal">
+        <div class="eyebrow">A little moment for us</div>
+        <h2>Press play,<br><span class="pink">my Bby.</span></h2>
+        <p class="subtitle">
+          Ek chhota sa video moment, just for you. 💌
+        </p>
+
+        <div class="video-frame">
+          <video id="specialVideo" controls playsinline preload="metadata">
+            <source src="vdo.mp4" type="video/mp4">
+            Sorry, your browser cannot play this video.
+          </video>
+        </div>
+
+        <p class="hint">
+          If the video doesn't load, check that the filename is exactly
+          <strong>vdo.mp4</strong> and that it is in the same folder as this page.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <div class="card reveal">
+        <div class="eyebrow">A few little wishes</div>
+        <h2>With you,<br><span class="pink">I'd love to…</span></h2>
+        <div class="chips">
+          <span class="chip">💗 Make you smile</span>
+          <span class="chip">🌷 Share silly stories</span>
+          <span class="chip">🙈 Tease you a little</span>
+          <span class="chip">🧸 Be there for you</span>
+          <span class="chip">✨ Make sweet memories</span>
+          <span class="chip">🫶🏻 Listen to you</span>
+        </div>
+        <div class="quote">
+          No need to be perfect with me, bbe.
+          Just be yourself. That's already special. 💕
+        </div>
+        <p class="message">
+          Main chahta hoon ki tum mere saath comfortable feel karo,
+          apni baatein share kar sako, dil khol ke has sako, aur
+          jab kabhi mood off ho toh bina hesitation mujhse baat kar sako.
+          Hum ek dusre ko samjhein, respect karein aur saath grow karein. ❤️
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <div class="card reveal">
+        <div class="final-heart" aria-hidden="true">💗</div>
+        <div class="eyebrow">One last little question</div>
+        <h2>Bbe, will you<br><span class="pink">be mine?</span></h2>
+        <p class="subtitle">
+          I like what we're building, and I'd love to make more
+          lovely memories with you. 🥹
+        </p>
+
+        <div class="btn-row">
+          <button class="btn" id="yesBtn">Yes, Bby 💗</button>
+          <button class="btn secondary" id="hugBtn">Sending a hug 🫶🏻</button>
+        </div>
+
+        <div class="answer" id="answer" role="status" aria-live="polite"></div>
+        <p class="hint">No pressure, just a little message from my heart. ♡</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Made with a little courage, lots of care & a tiny bit of blush. 🎀
+    <br>Just for you, Bbe ♡
+  </footer>
+
+  <script>
+    const music = document.getElementById("music");
+    const musicBtn = document.getElementById("musicBtn");
+    const ambient = document.getElementById("ambient");
+    const answer = document.getElementById("answer");
+    const yesBtn = document.getElementById("yesBtn");
+    const hugBtn = document.getElementById("hugBtn");
+    const video = document.getElementById("specialVideo");
+
+    let musicStarted = false;
+
+    async function playMusic() {
+      try {
+        await music.play();
+        musicStarted = true;
+        musicBtn.classList.add("playing");
+        musicBtn.textContent = "♫";
+        musicBtn.setAttribute("aria-label", "Pause background music");
+        musicBtn.setAttribute("aria-pressed", "true");
+      } catch (error) {
+        musicBtn.classList.remove("playing");
+        musicBtn.setAttribute("aria-label", "Play background music");
+        musicBtn.setAttribute("aria-pressed", "false");
+      }
+    }
+
+    function pauseMusic() {
+      music.pause();
+      musicBtn.classList.remove("playing");
+      musicBtn.setAttribute("aria-label", "Play background music");
+      musicBtn.setAttribute("aria-pressed", "false");
+    }
+
+    musicBtn.addEventListener("click", () => {
+      if (music.paused) {
+        playMusic();
+      } else {
+        pauseMusic();
+      }
+    });
+
+    // Try autoplay. Browsers may require a user gesture first.
+    window.addEventListener("load", playMusic, { once: true });
+
+    // First touch or scroll also provides an opportunity to start the song.
+    function firstInteraction() {
+      if (!musicStarted && music.paused) playMusic();
+      window.removeEventListener("pointerdown", firstInteraction);
+      window.removeEventListener("scroll", firstInteraction);
+    }
+
+    window.addEventListener("pointerdown", firstInteraction, { passive: true });
+    window.addEventListener("scroll", firstInteraction, { passive: true });
+
+    // Pause the song while the video plays, then resume if it was playing.
+    let resumeMusicAfterVideo = false;
+
+    video.addEventListener("play", () => {
+      resumeMusicAfterVideo = !music.paused;
+      if (resumeMusicAfterVideo) pauseMusic();
+    });
+
+    video.addEventListener("pause", () => {
+      if (resumeMusicAfterVideo) playMusic();
+      resumeMusicAfterVideo = false;
+    });
+
+    video.addEventListener("ended", () => {
+      if (resumeMusicAfterVideo) playMusic();
+      resumeMusicAfterVideo = false;
+    });
+
+    // Reveal sections smoothly as they enter the viewport.
+    const revealItems = document.querySelectorAll(".reveal");
+
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      revealItems.forEach(item => observer.observe(item));
+    } else {
+      revealItems.forEach(item => item.classList.add("visible"));
+    }
+
+    // Floating hearts, kept lightweight for phones.
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    function createHeart() {
+      if (reduceMotion || document.hidden) return;
+
+      const heart = document.createElement("span");
+      heart.className = "heart";
+      heart.textContent = ["♡", "♥", "✦", "💕"][Math.floor(Math.random() * 4)];
+      heart.style.left = Math.random() * 100 + "%";
+      heart.style.fontSize = (12 + Math.random() * 15) + "px";
+      heart.style.setProperty("--drift", (Math.random() * 100 - 50) + "px");
+      heart.style.animationDuration = (7 + Math.random() * 7) + "s";
+
+      ambient.appendChild(heart);
+      setTimeout(() => heart.remove(), 15000);
+    }
+
+    if (!reduceMotion) {
+      setInterval(createHeart, 950);
+    }
+
+    // Sweet, respectful endings.
+    yesBtn.addEventListener("click", () => {
+      answer.textContent =
+        "Awww Bbeee! 🥹💗 Here's to more smiles, care and cute memories together. ♡";
+      yesBtn.textContent = "You made me smile! 💞";
+      yesBtn.disabled = true;
+    });
+
+    hugBtn.addEventListener("click", () => {
+      answer.textContent =
+        "Big virtual hug for you, Bby! 🫂🎀 Hope this made you smile.";
+      hugBtn.textContent = "Hug delivered 💗";
+    });
+  </script>
+</body>
+</html>
